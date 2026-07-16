@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
   <meta name="theme-color" content="#050712">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>霓虹原罪 // NEON GENESIS</title>
   <link rel="icon" href="data:,">
   <link rel="manifest" href="manifest.webmanifest">
@@ -13,6 +16,19 @@
   <main id="game-shell">
     <canvas id="game" width="1280" height="720" aria-label="霓虹原罪游戏画面"></canvas>
     <div class="scanlines"></div>
+    <button id="fullscreen-btn" type="button" aria-label="进入全屏" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+      <span>全屏</span>
+    </button>
+
+    <section id="rotate-screen" aria-label="横屏游玩提示" aria-live="polite">
+      <div class="rotate-device" aria-hidden="true"><i></i><b>↻</b></div>
+      <p>LANDSCAPE LINK REQUIRED</p>
+      <h2>请旋转手机</h2>
+      <blockquote>《霓虹原罪》采用横版战斗界面。旋转设备后，所有按钮和双摇杆会自动适配安全区域。</blockquote>
+      <button id="rotate-fullscreen-btn" type="button" class="primary">全屏并尝试横屏</button>
+      <small id="rotate-status">也可以先手动旋转，再点右上角全屏。</small>
+    </section>
 
     <header id="hud">
       <section class="vitals">
