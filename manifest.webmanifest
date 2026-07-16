@@ -1,0 +1,10 @@
+{
+  "name": "霓虹原罪 // NEON GENESIS",
+  "short_name": "霓虹原罪",
+  "description": "原创赛博朋克房间制双摇杆肉鸽",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#03050c",
+  "theme_color": "#050712"
+}

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#050712">
+  <title>霓虹原罪 // NEON GENESIS</title>
+  <link rel="icon" href="data:,">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="game" width="1280" height="720" aria-label="霓虹原罪游戏画面"></canvas>
+    <div class="scanlines"></div>
+
+    <header id="hud">
+      <section class="vitals">
+        <div class="eyebrow"><span id="floor-label">SECTOR I</span><span id="room-label">SAFE NODE</span></div>
+        <div id="hearts" aria-label="生命值"></div>
+        <div class="shield-line"><span>FIREWALL</span><div><i id="shield-fill"></i></div><b id="shield-value">0</b></div>
+      </section>
+      <section class="resources">
+        <span><i>¢</i><b id="coins">00</b><small>DATA</small></span>
+        <span><i>◇</i><b id="keys">01</b><small>KEY</small></span>
+        <span><i>●</i><b id="bombs">01</b><small>CHARGE</small></span>
+      </section>
+      <section id="minimap" aria-label="楼层地图"></section>
+    </header>
+
+    <aside id="forms">
+      <div class="form-title">数字键 1—4 / SHIFT + 方向</div>
+      <button data-form="vanguard" class="active"><kbd>1</kbd><span>VANGUARD</span><small>← 均衡脉冲</small></button>
+      <button data-form="wraith"><kbd>2</kbd><span>WRAITH</span><small>→ 高速双发</small></button>
+      <button data-form="beast"><kbd>3</kbd><span>BEAST</span><small>↓ 狂暴散射</small></button>
+      <button data-form="seraph"><kbd>4</kbd><span>SERAPH</span><small>↑ 贯穿光矛</small></button>
+    </aside>
+
+    <aside id="active-item">
+      <div id="active-icon">D6</div>
+      <div><b id="active-name">熵骰</b><span id="active-charge">● ● ●</span><small>SPACE 主动</small></div>
+    </aside>
+
+    <section id="boss-hud" class="hidden">
+      <div><span id="boss-name">NULL</span><small id="boss-phase">FORM 01</small></div>
+      <div class="boss-track"><i id="boss-fill"></i></div>
+    </section>
+
+    <section id="item-banner" class="hidden">
+      <span id="item-glyph">◈</span>
+      <div><small>NEURAL RELIC ACQUIRED</small><h2 id="item-name">物品名</h2><p id="item-desc">物品说明</p></div>
+    </section>
+
+    <section id="start-screen" class="overlay visible">
+      <div class="start-art" aria-hidden="true">
+        <div class="halo h1"></div><div class="halo h2"></div>
+        <div class="avatar"><i></i><b></b><span></span></div>
+        <div class="wing left"></div><div class="wing right"></div>
+      </div>
+      <div class="start-copy">
+        <p class="kicker">AN ORIGINAL CYBERPUNK ROOM-CRAWLER</p>
+        <h1>霓虹<br><em>原罪</em></h1>
+        <p class="subtitle">NEON GENESIS // DESCEND INTO THE MACHINE</p>
+        <p class="story-hook">人格已被母体拆分为四段武器协议。<br>沿着失落记忆逐一取回它们。</p>
+        <button id="start-btn" class="primary">进入序章 <small>ENTER</small></button>
+      </div>
+    </section>
+
+    <section id="story-screen" class="overlay story-screen" role="dialog" aria-modal="true" aria-labelledby="story-title">
+      <div class="story-progress" aria-live="polite"><span id="story-chapter">MEMORY 01</span><i id="story-progress-fill"></i><b id="story-count">01 / 09</b></div>
+      <div id="story-scene" class="story-scene prologue">
+        <div class="story-visual">
+          <div class="memory-rings"><i></i><b></b><span></span></div>
+          <div id="weapon-schematic" class="weapon-schematic prologue"><i></i><b></b><span></span><em></em></div>
+          <div id="room-guide" class="room-guide" role="tablist" aria-label="六类房间协议" aria-hidden="true">
+            <button type="button" role="tab" aria-controls="weapon-card" aria-selected="false" data-room-guide="start" style="--room-color:#23f7ff"><span>⌂</span><strong>安全节点</strong><small>SAFE NODE</small><i>路线规划</i></button>
+            <button type="button" role="tab" aria-controls="weapon-card" aria-selected="false" data-room-guide="combat" style="--room-color:#ff365f"><span>✕</span><strong>清剿区</strong><small>PURGE</small><i>封门战斗</i></button>
+            <button type="button" role="tab" aria-controls="weapon-card" aria-selected="false" data-room-guide="treasure" style="--room-color:#ffe34c"><span>◆</span><strong>遗物库</strong><small>RELIC VAULT</small><i>密钥 ×1</i></button>
+            <button type="button" role="tab" aria-controls="weapon-card" aria-selected="false" data-room-guide="shop" style="--room-color:#9b5cff"><span>¢</span><strong>黑市</strong><small>BLACK MARKET</small><i>DATA 消费</i></button>
+            <button type="button" role="tab" aria-controls="weapon-card" aria-selected="false" data-room-guide="secret" style="--room-color:#e9f8ff"><span>◌</span><strong>幽灵缓存</strong><small>GHOST CACHE</small><i>爆破寻秘</i></button>
+            <button type="button" role="tab" aria-controls="weapon-card" aria-selected="false" data-room-guide="boss" style="--room-color:#ff2c92"><span>!</span><strong>执政官门</strong><small>ARCHON GATE</small><i>最高风险</i></button>
+          </div>
+          <small id="weapon-code">ARCHIVE // 00</small>
+        </div>
+        <article class="story-copy">
+          <p id="story-eyebrow">THE MEMORY CHAIN</p>
+          <h2 id="story-title" tabindex="-1">第零号冷柜</h2>
+          <blockquote id="story-text">你在城市最深处醒来。名字已被删除，只剩四段等待重新接入的战斗人格。</blockquote>
+          <div id="weapon-card" class="weapon-card hidden" aria-live="polite" aria-atomic="true">
+            <span id="weapon-direction">←</span>
+            <div><small id="weapon-class">FORM // VANGUARD</small><h3 id="weapon-name">脉冲圣痕</h3><p id="weapon-desc">稳定、精准、为第一道防线而生。</p><div id="guide-facts" class="guide-facts hidden"><b id="guide-risk"></b><b id="guide-reward"></b></div></div>
+          </div>
+          <div class="story-actions"><button id="story-skip">跳过记忆</button><button id="story-next" class="primary">继续同步 <small>ENTER</small></button></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="boss-intro" class="overlay cinematic">
+      <div class="boss-sigil"><i></i><b></b><span></span></div>
+      <p>HOSTILE ARCHON DETECTED</p><h2 id="intro-name">NULL MATRIARCH</h2><small id="intro-subtitle">THREE FORMS // NO MERCY</small>
+    </section>
+
+    <section id="pause-screen" class="overlay compact">
+      <p>SYSTEM SUSPENDED</p><h2>暂停</h2><button id="resume-btn" class="primary">继续</button>
+    </section>
+
+    <section id="gameover-screen" class="overlay compact">
+      <p id="result-kicker">CONNECTION TERMINATED</p><h2 id="result-title">意识离线</h2>
+      <div id="result-stats"></div><button id="restart-btn" class="primary">再次下潜</button>
+    </section>
+
+    <div id="toast"></div>
+    <button id="music-btn" aria-label="背景音乐 100%，点击关闭" aria-pressed="true">♪ 100%</button>
+    <button id="pause-btn" aria-label="暂停">Ⅱ</button>
+
+    <section id="touch-controls">
+      <div id="move-stick" class="stick"><i></i><span>MOVE</span></div>
+      <div id="shoot-stick" class="stick shoot"><i></i><span>FIRE</span></div>
+      <div class="touch-actions"><button id="touch-bomb">●</button><button id="touch-active">D6</button></div>
+      <div id="touch-forms"><button data-touch-form="seraph">↑</button><button data-touch-form="wraith">→</button><button data-touch-form="beast">↓</button><button data-touch-form="vanguard">←</button></div>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
