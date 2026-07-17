@@ -33,7 +33,10 @@
     <header id="hud">
       <section class="vitals">
         <div class="eyebrow"><span id="floor-label">SECTOR I</span><span id="room-label">SAFE NODE</span></div>
-        <div id="hearts" aria-label="生命值"></div>
+        <div class="battery-readout">
+          <div id="hearts" class="health-battery" role="meter" aria-label="核心电池：6 / 6 格" aria-valuemin="0" aria-valuemax="6" aria-valuenow="6"></div>
+          <div class="battery-meta"><b id="health-value" aria-live="polite">06 / 06</b><small id="health-status">CORE CELLS</small></div>
+        </div>
         <div class="shield-line"><span>FIREWALL</span><div><i id="shield-fill"></i></div><b id="shield-value">0</b></div>
       </section>
       <section class="resources">
