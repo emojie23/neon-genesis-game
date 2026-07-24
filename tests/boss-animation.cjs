@@ -32,7 +32,7 @@ let browser;
   const expected=[
     {floor:1,id:'cherub',columns:6,frames:18},
     {floor:2,id:'matriarch',columns:6,frames:18},
-    {floor:3,id:'hexa',columns:5,frames:15}
+    {floor:3,id:'hexa',columns:6,frames:18}
   ];
   const results=[];
   for(const spec of expected){
@@ -54,7 +54,7 @@ let browser;
     assert.strictEqual(painted.state.introBoss,spec.id,'intro portrait must use the current combat boss atlas');
     assert.strictEqual(painted.state.columns,spec.columns);
     assert.strictEqual(painted.state.frames,spec.frames);
-    assert.strictEqual(painted.state.totalFrames,51);
+    assert.strictEqual(painted.state.totalFrames,54);
     assert.ok(painted.state.ready,`${spec.id} atlas not ready`);
     assert.ok(painted.opaque>2500,`${spec.id} intro portrait is empty`);
 
@@ -75,6 +75,7 @@ let browser;
     assert.strictEqual(combat.phase2.action,'transform','phase change must show the transform frame');
     assert.ok(combat.moving.bladeAngle>combat.before.bladeAngle,'boss motion clock must advance');
     if(spec.id==='cherub')assert.strictEqual(combat.moving.bladeCount,6,'Cyber Cherub must always have exactly six blade effects');
+    if(spec.id==='hexa')assert.strictEqual(combat.moving.armCount,6,'Hexa must always have exactly six weapon arms');
     const renderCost=await page.evaluate(()=>{
       const d=window.__GENESIS_DEBUG__,start=performance.now();
       for(let i=0;i<180;i++)d.renderNow();
@@ -87,6 +88,7 @@ let browser;
   await page.evaluate(()=>{
     const d=window.__GENESIS_DEBUG__;
     d.start();d.loadFloor(1);d.forceEnterType('boss');
+    document.querySelector('#intro-portrait').style.animation='none';
   });
   await page.screenshot({path:path.join(root,'neon-genesis-boss-intro-v3.png')});
   await page.evaluate(()=>{
@@ -96,7 +98,7 @@ let browser;
   await page.screenshot({path:path.join(root,'neon-genesis-cherub-six-blades.png')});
 
   assert.deepStrictEqual(errors,[],`browser errors: ${errors.join(' | ')}`);
-  console.log(JSON.stringify({ok:true,totalFrames:51,bosses:results.map(item=>({id:item.spec.id,columns:item.intro.columns,frames:item.intro.frames,opaquePixels:item.opaque,phaseAction:item.combat.phase2.action,bladeCount:item.combat.moving.bladeCount,renderMs:+item.renderCost.toFixed(3)}))},null,2));
+  console.log(JSON.stringify({ok:true,totalFrames:54,bosses:results.map(item=>({id:item.spec.id,columns:item.intro.columns,frames:item.intro.frames,opaquePixels:item.opaque,phaseAction:item.combat.phase2.action,bladeCount:item.combat.moving.bladeCount,armCount:item.combat.moving.armCount,renderMs:+item.renderCost.toFixed(3)}))},null,2));
 })().catch(error=>{
   console.error(error);
   process.exitCode=1;
