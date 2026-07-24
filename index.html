@@ -60,6 +60,11 @@
       <div><b id="active-name">熵骰</b><span id="active-charge">● ● ●</span><small>SPACE 主动</small></div>
     </aside>
 
+    <aside id="relic-array" class="empty" aria-label="已装载遗物">
+      <div><span>RELIC ARRAY</span><b id="relic-count">00</b></div>
+      <section id="relic-slots"></section>
+    </aside>
+
     <section id="boss-hud" class="hidden">
       <div><span id="boss-name">NULL</span><small id="boss-phase">FORM 01</small></div>
       <div class="boss-track"><i id="boss-fill"></i></div>
@@ -67,7 +72,12 @@
 
     <section id="item-banner" class="hidden">
       <span id="item-glyph">◈</span>
-      <div><small>NEURAL RELIC ACQUIRED</small><h2 id="item-name">物品名</h2><p id="item-desc">物品说明</p></div>
+      <div>
+        <small>NEURAL RELIC ACQUIRED</small>
+        <div class="item-title-row"><h2 id="item-name">物品名</h2><b id="item-rarity">RARE // ORGAN</b></div>
+        <p id="item-desc">物品说明</p>
+        <em id="item-synergy">协同信息</em>
+      </div>
     </section>
 
     <section id="start-screen" class="overlay visible">
