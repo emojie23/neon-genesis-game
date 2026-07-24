@@ -66,6 +66,8 @@ function closeTo(actual, expected, epsilon = 1e-9) {
   const ascensionIds = new Set(model.ascensions.map(item => item.id));
   assert.strictEqual(model.totalFloors, 6, 'progression must contain exactly six implemented floors');
   assert.strictEqual(model.floors.length, 6, 'progression model and floor count diverged');
+  assert.deepStrictEqual(model.powerCurve, [1, 2, 4, 8, 16, 32],
+    'floor power curve must at least double after every completed sector');
   assert.strictEqual(model.startKeys, 0, 'the run should begin without a pre-granted deep-room key');
   assert.strictEqual(model.keyCap, 3, 'key inventory cap changed unexpectedly');
   assert.strictEqual(model.pityMax, 2, 'two misses should guarantee growth on the following clear');
@@ -522,16 +524,16 @@ function closeTo(actual, expected, epsilon = 1e-9) {
   });
   const baseStats = powerCurve.base.stats;
   const stageStats = powerCurve.stages.map(stage => stage.progression.stats);
-  assert.ok(stageStats.every((stats, index) => !index || stats.dps >= stageStats[index - 1].dps),
-    'scripted six-floor build lost offensive power between floors');
-  assert.ok(stageStats[0].dps < baseStats.dps * 1.2,
-    'the first upgrade spike is too large for a deliberately weak opening');
+  assert.ok(stageStats.every((stats, index) => !index || stats.dps >= stageStats[index - 1].dps * 2),
+    'scripted build did not at least double offensive power between floors');
+  assert.ok(stageStats[0].dps >= baseStats.dps * 1.2,
+    'the first tuning choice is still too weak to feel meaningful');
   const lateStats = stageStats.at(-1);
   assert.ok(lateStats.damage > baseStats.damage && lateStats.delay < baseStats.delay,
     'late build did not improve both damage and firing cadence');
   assert.ok(lateStats.shots >= baseStats.shots + 2 && lateStats.pierce >= baseStats.pierce + 2,
     'late build lacks multishot or penetration growth');
-  assert.ok(lateStats.dps >= baseStats.dps * 4,
+  assert.ok(lateStats.dps >= baseStats.dps * 32,
     `late build power spike is too small: ${baseStats.dps} -> ${lateStats.dps}`);
 
   await page.evaluate(() => window.__GENESIS_DEBUG__.start());
