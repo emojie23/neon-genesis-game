@@ -127,8 +127,17 @@
     </section>
 
     <section id="boss-intro" class="overlay cinematic">
-      <div class="boss-sigil"><i></i><b></b><span></span></div>
-      <p>HOSTILE ARCHON DETECTED</p><h2 id="intro-name">NULL MATRIARCH</h2><small id="intro-subtitle">THREE FORMS // NO MERCY</small>
+      <div class="boss-intro-stage">
+        <div class="boss-portrait-frame">
+          <div class="boss-sigil"><i></i><b></b><span></span></div>
+          <canvas id="intro-portrait" width="420" height="330" aria-label="当前 Boss 第一形态立绘"></canvas>
+          <em>LIVE COMBAT FRAME // FORM 01</em>
+        </div>
+        <div class="boss-intro-copy">
+          <p>HOSTILE ARCHON DETECTED</p><h2 id="intro-name">NULL MATRIARCH</h2><small id="intro-subtitle">THREE FORMS // NO MERCY</small>
+          <div class="boss-form-preview"><i>FORM 01</i><i>FORM 02</i><i>FORM 03</i></div>
+        </div>
+      </div>
     </section>
 
     <section id="pause-screen" class="overlay compact">
