@@ -1,4 +1,4 @@
-const CACHE='neon-genesis-v19-boss-form-atlases';
+const CACHE='neon-genesis-v20-upright-player-anchor';
 const FILES=['./','./index.html','./styles.css','./game.js','./manifest.webmanifest','./assets/sprites/protagonist-atlas-v2.png','./assets/sprites/boss-atlas-v2.png','./assets/sprites/enemy-atlas-v2.png','./assets/sprites/boss-cherub-atlas-v3.png','./assets/sprites/boss-matriarch-atlas-v3.png','./assets/sprites/boss-hexa-atlas-v3.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
